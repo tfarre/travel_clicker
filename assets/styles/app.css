@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+
+/* Custom CSS variables and base styles */
+:root {
+    --color-primary: #3b82f6;
+    --color-secondary: #10b981;
+    --color-accent: #f59e0b;
+}
+
+/* Base styles */
+body {
+    @apply bg-gray-100 text-gray-900 antialiased;
+}

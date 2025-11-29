@@ -1,0 +1,23 @@
+{
+  "name": "travel_clicker",
+  "version": "1.0.0",
+  "description": "A marketplace simulation idle game built as a learning project for Symfony backend development.",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["symfony", "svelte", "tailwindcss", "idle-game", "clicker"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@hotwired/stimulus": "^3.2.2",
+    "@sveltejs/vite-plugin-svelte": "^5.1.1",
+    "@tailwindcss/vite": "^4.1.17",
+    "svelte": "^5.0.0",
+    "tailwindcss": "^4.1.17",
+    "vite": "^6.4.1",
+    "vite-plugin-symfony": "^8.2.3"
+  }
+}

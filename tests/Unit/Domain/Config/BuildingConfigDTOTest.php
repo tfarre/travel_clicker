@@ -21,9 +21,7 @@ final class BuildingConfigDTOTest extends TestCase
             description: 'Distribution de flyers',
             icon: '📢',
             baseCost: 1000,
-            type: 'marketing',
             production: 0.1,
-            cartBonus: null,
         );
 
         self::assertSame('flyers', $building->id);
@@ -31,64 +29,40 @@ final class BuildingConfigDTOTest extends TestCase
         self::assertSame('Distribution de flyers', $building->description);
         self::assertSame('📢', $building->icon);
         self::assertSame(1000, $building->baseCost);
-        self::assertSame('marketing', $building->type);
         self::assertSame(0.1, $building->production);
-        self::assertNull($building->cartBonus);
     }
 
     #[Test]
-    public function it_creates_a_partner_building(): void
+    public function it_stores_production_value(): void
     {
         $building = new BuildingConfigDTO(
-            id: 'gite_rural',
-            name: 'Gîte Rural',
-            description: 'Partenariat avec des gîtes',
-            icon: '🏠',
-            baseCost: 10000,
-            type: 'partner',
-            production: null,
-            cartBonus: 1000,
-        );
-
-        self::assertSame('gite_rural', $building->id);
-        self::assertSame('Gîte Rural', $building->name);
-        self::assertSame(10000, $building->baseCost);
-        self::assertSame('partner', $building->type);
-        self::assertNull($building->production);
-        self::assertSame(1000, $building->cartBonus);
-    }
-
-    #[Test]
-    public function it_identifies_marketing_buildings(): void
-    {
-        $marketing = new BuildingConfigDTO(
-            id: 'test',
-            name: 'Test',
-            description: '',
+            id: 'seo_basic',
+            name: 'SEO Basic',
+            description: 'Référencement naturel',
             icon: '🔍',
-            baseCost: 1000,
-            type: 'marketing',
-            production: 1.0,
+            baseCost: 5000,
+            production: 0.5,
         );
 
-        self::assertTrue($marketing->isMarketing());
-        self::assertFalse($marketing->isPartner());
+        self::assertSame('seo_basic', $building->id);
+        self::assertSame(5000, $building->baseCost);
+        self::assertSame(0.5, $building->production);
     }
 
     #[Test]
-    public function it_identifies_partner_buildings(): void
+    public function it_handles_high_production_values(): void
     {
-        $partner = new BuildingConfigDTO(
-            id: 'test',
-            name: 'Test',
-            description: '',
-            icon: '🏨',
-            baseCost: 1000,
-            type: 'partner',
-            cartBonus: 500,
+        $building = new BuildingConfigDTO(
+            id: 'influencer',
+            name: 'Influenceur',
+            description: 'Marketing d\'influence',
+            icon: '🌟',
+            baseCost: 100000,
+            production: 10.0,
         );
 
-        self::assertFalse($partner->isMarketing());
-        self::assertTrue($partner->isPartner());
+        self::assertSame('influencer', $building->id);
+        self::assertSame(100000, $building->baseCost);
+        self::assertSame(10.0, $building->production);
     }
 }

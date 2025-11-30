@@ -131,7 +131,6 @@ final class GameConfigLoader
             description: (string) ($data['description'] ?? ''),
             icon: (string) ($data['icon'] ?? '🏢'),
             baseCost: (int) ($data['base_cost'] ?? throw $this->missingKey('base_cost', "building '{$id}'")),
-            type: 'marketing',
             production: (float) ($data['production'] ?? throw $this->missingKey('production', "building '{$id}'")),
         );
     }

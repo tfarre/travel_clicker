@@ -36,7 +36,6 @@ final class GameConfigDTOTest extends TestCase
                 description: 'Flyers description',
                 icon: '📢',
                 baseCost: 1000,
-                type: 'marketing',
                 production: 0.1,
             ),
             new BuildingConfigDTO(
@@ -45,7 +44,6 @@ final class GameConfigDTOTest extends TestCase
                 description: 'SEO description',
                 icon: '🔍',
                 baseCost: 5000,
-                type: 'marketing',
                 production: 0.5,
             ),
         ];

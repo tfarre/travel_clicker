@@ -106,7 +106,6 @@ readonly class GameConfigDTO
             'description' => $building->description,
             'icon' => $building->icon,
             'baseCost' => $building->baseCost,
-            'type' => $building->type,
             'production' => $building->production,
         ];
     }

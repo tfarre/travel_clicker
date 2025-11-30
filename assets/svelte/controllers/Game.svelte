@@ -1,33 +1,43 @@
-<script>
-    import { gameState } from '../lib/GameState.svelte.js';
+<script lang="ts">
+    import { gameState } from '../lib/GameState.svelte';
+    import type { GameConfig } from '../types/game';
     import ClickButton from './ClickButton.svelte';
     import Dashboard from './Dashboard.svelte';
     import Shop from './Shop.svelte';
 
     // Receive config from Twig template (Config-Driven Design)
-    let { config } = $props();
+    let { config }: { config: GameConfig } = $props();
 
     // Initialize game state with config on mount
     $effect(() => {
-        if (config && !gameState.config) {
+        if (config && !gameState.isInitialized) {
             gameState.init(config);
         }
     });
 
-    // Game tick loop for passive income
+    // Cleanup on unmount
     $effect(() => {
-        if (!gameState.config) return;
-
-        const interval = setInterval(() => {
-            gameState.tick();
-        }, gameState.config.formulas.tickIntervalMs);
-
-        // Cleanup on unmount
-        return () => clearInterval(interval);
+        return () => {
+            gameState.destroy();
+        };
     });
 </script>
 
 <div class="container mx-auto px-4 py-6 max-w-4xl">
+    <!-- Error Toast -->
+    {#if gameState.errorMessage}
+        <div class="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg animate-pulse">
+            ⚠️ {gameState.errorMessage}
+        </div>
+    {/if}
+
+    <!-- Sync Indicator -->
+    {#if gameState.isSyncing}
+        <div class="fixed top-4 left-4 z-50 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-lg text-sm">
+            🔄 Synchronisation...
+        </div>
+    {/if}
+
     <!-- Header -->
     <header class="text-center mb-8">
         <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
@@ -38,7 +48,7 @@
         </p>
     </header>
 
-    {#if gameState.config}
+    {#if gameState.isInitialized}
         <!-- Money Display -->
         <div class="text-center mb-6">
             <div class="inline-block bg-white rounded-xl shadow-lg px-8 py-4">

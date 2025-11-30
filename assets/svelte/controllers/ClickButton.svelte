@@ -1,11 +1,11 @@
-<script>
-    import { gameState } from '../lib/GameState.svelte.js';
+<script lang="ts">
+    import { gameState } from '../lib/GameState.svelte';
 
     // Track click animation state
     let isClicking = $state(false);
     let clickCount = $state(0);
 
-    function handleClick() {
+    function handleClick(): void {
         gameState.click();
 
         // Trigger click animation
@@ -18,7 +18,7 @@
     }
 </script>
 
-<div class="bg-white rounded-xl shadow-lg p-6 text-center">
+<div class="bg-white rounded-xl shadow-lg p-6 text-center relative">
     <h2 class="text-lg font-semibold text-gray-700 mb-4">
         Attirer des visiteurs
     </h2>
@@ -41,8 +41,8 @@
 
     <!-- Click feedback particles (optional visual) -->
     {#if isClicking}
-        <div class="absolute inset-0 pointer-events-none">
-            <span class="text-2xl animate-ping">+1</span>
+        <div class="absolute inset-0 pointer-events-none flex items-center justify-center">
+            <span class="text-2xl animate-ping text-green-500">+1</span>
         </div>
     {/if}
 </div>

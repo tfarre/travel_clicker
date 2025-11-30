@@ -1,5 +1,5 @@
-<script>
-    import { gameState } from '../lib/GameState.svelte.js';
+<script lang="ts">
+    import { gameState } from '../lib/GameState.svelte';
     import BuildingCard from './BuildingCard.svelte';
     import VerticalCard from './VerticalCard.svelte';
 </script>

@@ -53,13 +53,13 @@ The frontend maintains a **pending actions queue** with snapshots for rollback:
 
 ### Implementation Pattern
 
-```javascript
-// GameState.svelte.js
+```typescript
+// GameState.svelte.ts
 class GameState {
     #pendingActions = $state([]);
     money = $state(0);
     
-    buyBuilding(buildingId) {
+    buyBuilding(buildingId: string): void {
         const snapshot = this.#createSnapshot();
         const cost = this.#calculateCost(buildingId);
         
@@ -76,7 +76,7 @@ class GameState {
         });
     }
     
-    handleServerResponse(response) {
+    handleServerResponse(response: SyncResponse): void {
         if (response.rejected.length > 0) {
             // Rollback rejected actions
             this.#rollback(response.rejected);
@@ -283,9 +283,47 @@ Used to handle background tasks (e.g., complex ROI recalculations).
 
 ---
 
-## Frontend (Svelte 5, Twig, TailwindCSS 4)
+## Frontend (Svelte 5, TypeScript, Twig, TailwindCSS 4)
 
 The frontend acts as a "Remote Control" for the game state, leveraging the latest reactive patterns.
+
+### TypeScript
+
+All Svelte components and state management files **MUST** use TypeScript:
+
+```typescript
+// ✅ Correct - TypeScript
+<script lang="ts">
+import type { BuildingConfig } from '../types';
+let { building }: { building: BuildingConfig } = $props();
+</script>
+```
+
+```javascript
+// ❌ Forbidden - Plain JavaScript
+<script>
+let { building } = $props();
+</script>
+```
+
+#### Type Definitions
+
+All types are defined in `assets/svelte/types/`:
+
+| File | Contents |
+|------|----------|
+| `game.ts` | Core game interfaces (`GameConfig`, `GameState`, `BuildingConfig`, etc.) |
+| `index.ts` | Re-exports all types for easy importing |
+
+#### Import Pattern
+
+```typescript
+// ✅ Correct - Import from types index
+import type { BuildingConfig, VerticalConfig } from '../types';
+
+// ✅ Also correct - Import from specific file
+import type { GameState } from '../types/game';
+```
 
 ### JavaScript & Svelte 5
 
@@ -303,11 +341,32 @@ $state, $derived, $effect, $props
 export let, $:, createEventDispatcher
 ```
 
-#### State Management (`.svelte.js`)
+#### State Management (`.svelte.ts`)
 
 - **DO NOT** use `svelte/store` (`writable`, `readable`)
-- Use **Global Reactive Objects** via `.svelte.js` files containing classes with `$state` fields
+- Use **Global Reactive Objects** via `.svelte.ts` files containing classes with `$state` fields
 - The Game State object handles the Optimistic Update logic internally
+- State file: `assets/svelte/lib/GameState.svelte.ts`
+
+```typescript
+// GameState.svelte.ts - Example structure
+class GameState {
+    money = $state(0);
+    buildings = $state<Record<string, BuildingState>>({});
+    
+    // Derived values
+    get visitorsPerSecond(): number {
+        return this.#calculateVisitorsPerSecond();
+    }
+    
+    // Actions (optimistic)
+    buyBuilding(id: string): void {
+        // Optimistic update + queue for sync
+    }
+}
+
+export const gameState = new GameState();
+```
 
 #### Mercure Integration
 
@@ -372,6 +431,7 @@ npm run build             # Build Svelte/Tailwind
 | PHP Version | 8.4 |
 | Database | PostgreSQL |
 | Frontend Framework | Svelte 5 (Runes) |
+| Frontend Language | TypeScript |
 | CSS Framework | TailwindCSS 4 (Oxide) |
 | Templating | Twig |
 | Real-Time | Mercure (SSE) |

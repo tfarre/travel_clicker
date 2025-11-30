@@ -228,6 +228,59 @@ Génère des visiteurs automatiquement.
 
 ## 🔧 Technical Mapping
 
+### Architecture Overview
+
+The game follows a **Server-Authoritative** architecture where Symfony holds the absolute truth. The frontend uses **Optimistic UI** with rollback capabilities.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Frontend (Svelte 5 + TypeScript)                           │
+│  └── Optimistic UI with pending actions queue               │
+│      └── GameState.svelte.ts (global reactive state)        │
+└─────────────────────────────────────────────────────────────┘
+                            │
+                            │ POST /api/game/sync
+                            │ POST /api/game/tick
+                            │ GET  /api/game/state
+                            ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Backend (Symfony 7.4 + PHP 8.4)                            │
+│  └── GameCalculator service (all game logic)                │
+│      └── Session-based state storage (MVP)                  │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/game/state` | GET | Get current game state from server |
+| `/api/game/sync` | POST | Sync batch of player actions |
+| `/api/game/tick` | POST | Process passive income tick |
+| `/api/game/reset` | POST | Reset game state |
+
+### TypeScript Types
+
+All frontend types are defined in `assets/svelte/types/game.ts` and match the PHP DTOs:
+
+```typescript
+// assets/svelte/types/game.ts
+interface GameConfig {
+  marketing: BuildingConfig[];
+  verticals: VerticalConfig[];
+  formulas: FormulasConfig;
+}
+
+interface GameState {
+  money: number;           // In centimes
+  totalVisitors: number;
+  visitorsTowardsSale: number;
+  totalSales: number;
+  buildings: Record<string, BuildingState>;
+  verticals: Record<string, VerticalState>;
+}
+```
+
 ### Config YAML → Game Mechanics
 
 ```yaml

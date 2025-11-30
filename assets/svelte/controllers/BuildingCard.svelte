@@ -1,19 +1,20 @@
-<script>
-    import { gameState } from '../lib/GameState.svelte.js';
+<script lang="ts">
+    import { gameState } from '../lib/GameState.svelte';
+    import type { BuildingConfig } from '../types';
 
-    let { building } = $props();
+    let { building }: { building: BuildingConfig } = $props();
 
     // Derived values for this building
     let owned = $derived(gameState.buildings[building.id]?.owned ?? 0);
     let cost = $derived(gameState.getBuildingCost(building.id));
     let canAfford = $derived(gameState.canAffordBuilding(building.id));
 
-    function handleBuy() {
+    function handleBuy(): void {
         gameState.buyBuilding(building.id);
     }
 
     // Format the building's effect description
-    function getEffectText() {
+    function getEffectText(): string {
         if (building.production !== undefined) {
             return `+${building.production}/sec`;
         }

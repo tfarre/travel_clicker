@@ -1,8 +1,8 @@
-<script>
-    import { gameState } from '../lib/GameState.svelte.js';
+<script lang="ts">
+    import { gameState } from '../lib/GameState.svelte';
 
     // Format large numbers nicely
-    function formatNumber(num) {
+    function formatNumber(num: number): string {
         if (num >= 1000000) {
             return (num / 1000000).toFixed(1) + 'M';
         }

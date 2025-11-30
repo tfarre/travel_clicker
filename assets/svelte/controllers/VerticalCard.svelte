@@ -1,8 +1,8 @@
-<script>
-    import { gameState } from '../lib/GameState.svelte.js';
+<script lang="ts">
+    import { gameState } from '../lib/GameState.svelte';
+    import type { VerticalConfig } from '../types';
 
-    /** @type {{ vertical: Object }} */
-    let { vertical } = $props();
+    let { vertical }: { vertical: VerticalConfig } = $props();
 
     // Derived values from state
     let level = $derived(gameState.verticals[vertical.id]?.level ?? 0);
@@ -12,12 +12,14 @@
     let canAfford = $derived(gameState.canAffordVertical(vertical.id));
 
     // Market share (only for unlocked verticals)
-    let marketShare = $derived(() => {
-        if (!isUnlocked || gameState.totalAttractivity === 0) return 0;
-        return (vertical.attractivity / gameState.totalAttractivity) * 100;
-    });
+    // FIX: $derived should return a VALUE, not a function
+    let marketShare = $derived(
+        !isUnlocked || gameState.totalAttractivity === 0
+            ? 0
+            : (vertical.attractivity / gameState.totalAttractivity) * 100
+    );
 
-    function handleUpgrade() {
+    function handleUpgrade(): void {
         gameState.upgradeVertical(vertical.id);
     }
 </script>
@@ -61,7 +63,7 @@
                             💰 {gameState.formatMoney(currentPrice)}/vente
                         </span>
                         <span class="bg-purple-50 text-purple-700 px-2 py-1 rounded">
-                            📊 {marketShare().toFixed(1)}% du marché
+                            📊 {marketShare.toFixed(1)}% du marché
                         </span>
                     </div>
                 {:else}

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Travel Clicker - Game{% endblock %}
+
+{% block body %}
+<main class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    {#
+        Mount the Game Svelte component with the game configuration.
+        The config is serialized to JSON and passed as a prop.
+        This is the "Config-Driven Design" pattern from the architecture docs.
+    #}
+    <div {{ svelte_component('Game', { config: gameConfig }) }}></div>
+</main>
+{% endblock %}

@@ -1,0 +1,46 @@
+# Game Buildings Configuration
+# All monetary values are stored in CENTIMES (1€ = 100 centimes)
+#
+# Buildings generate passive visitors per second (Marketing)
+# Note: Partners have been replaced by the Verticals system (see verticals.yaml)
+
+# =============================================================================
+# MARKETING BUILDINGS
+# These generate visitors automatically (visitors per second)
+# =============================================================================
+marketing:
+    -   id: flyers
+        name: "Flyers"
+        description: "Distribution de flyers dans les offices de tourisme"
+        icon: "📢"
+        # Base cost in centimes (1000 = 10€)
+        base_cost: 1000
+        # Visitors generated per second when owned
+        production: 0.1
+
+    -   id: seo_basic
+        name: "SEO Basic"
+        description: "Référencement naturel sur Google"
+        icon: "🔍"
+        # Base cost in centimes (5000 = 50€)
+        base_cost: 5000
+        # Visitors generated per second when owned
+        production: 0.5
+
+    -   id: google_ads
+        name: "Google Ads"
+        description: "Campagne publicitaire Google"
+        icon: "📱"
+        # Base cost in centimes (20000 = 200€)
+        base_cost: 20000
+        # Visitors generated per second when owned
+        production: 2.0
+
+    -   id: influencer
+        name: "Influenceur"
+        description: "Partenariat avec un influenceur voyage"
+        icon: "🌟"
+        # Base cost in centimes (100000 = 1000€)
+        base_cost: 100000
+        # Visitors generated per second when owned
+        production: 10.0

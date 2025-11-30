@@ -1,0 +1,31 @@
+# Game Formulas Configuration
+# All monetary values are stored in CENTIMES (1€ = 100 centimes)
+# This ensures integer arithmetic and avoids floating-point precision issues
+
+formulas:
+    # Building cost scaling: cost = baseCost × (costGrowthRate ^ owned)
+    # At 1.15, each purchase increases cost by 15%
+    cost_growth_rate: 1.15
+
+    # Visitors gained per manual click
+    visitors_per_click: 1
+
+    # Number of visitors needed to trigger a batch of sales
+    # Every 100 visitors → buyers enter the funnel
+    sale_trigger_threshold: 100
+
+    # Conversion rate: percentage of visitors who become buyers
+    # 0.10 = 10% of visitors convert to actual purchases
+    conversion_rate: 0.10
+
+    # Commission rate: percentage of sale value earned as revenue
+    # 0.10 = 10% commission on each sale
+    base_commission_rate: 0.10
+
+    # Vertical upgrade cost scaling: cost = base × (upgradeGrowthRate ^ level)
+    # At 1.25, each level increases upgrade cost by 25%
+    vertical_upgrade_growth_rate: 1.25
+
+    # Game tick interval in milliseconds
+    # Used for passive income calculations
+    tick_interval_ms: 100

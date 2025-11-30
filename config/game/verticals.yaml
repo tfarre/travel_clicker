@@ -1,0 +1,117 @@
+# Verticals Configuration (Travel Categories)
+# All monetary values are stored in CENTIMES (1€ = 100 centimes)
+#
+# A Vertical represents a travel category (e.g., Hiking, Surf, Safari)
+# Revenue is distributed among unlocked verticals based on their attractivity weight.
+#
+# Formula:
+# - Market Share = attractivity / sum(all_unlocked_attractivities)
+# - Current Price = base_price × (margin_growth_factor ^ (level - 1))
+# - Revenue per Sale = volume × market_share × current_price × commission_rate
+
+verticals:
+    # ==========================================================================
+    # MASS MARKET - High attractivity, low price (easy to sell, low margins)
+    # ==========================================================================
+    -   id: weekend_france
+        name: "Week-end France"
+        description: "Courts séjours en France, faciles à vendre"
+        icon: "🏡"
+        # Base price in centimes (3000 = 30€)
+        base_price: 3000
+        # High attractivity = lots of buyers, easy to sell
+        attractivity: 100
+        # Price multiplier per level (+5% per upgrade)
+        margin_growth_factor: 1.05
+        # Cost to unlock in centimes (0 = free, starts unlocked)
+        unlock_cost: 1000
+
+    -   id: camping
+        name: "Camping & Nature"
+        description: "Séjours camping et plein air"
+        icon: "⛺"
+        base_price: 4000
+        attractivity: 80
+        margin_growth_factor: 1.06
+        unlock_cost: 5000
+
+    -   id: randonnee
+        name: "Randonnée"
+        description: "Treks et randonnées guidées"
+        icon: "🥾"
+        base_price: 5000
+        attractivity: 70
+        margin_growth_factor: 1.07
+        unlock_cost: 10000
+
+    # ==========================================================================
+    # MID MARKET - Balanced attractivity and price
+    # ==========================================================================
+    -   id: city_break
+        name: "City Break"
+        description: "Escapades urbaines en Europe"
+        icon: "🏙️"
+        base_price: 15000
+        attractivity: 50
+        margin_growth_factor: 1.08
+        unlock_cost: 25000
+
+    -   id: surf
+        name: "Surf & Glisse"
+        description: "Séjours surf au Portugal, Maroc..."
+        icon: "🏄"
+        base_price: 25000
+        attractivity: 35
+        margin_growth_factor: 1.08
+        unlock_cost: 50000
+
+    -   id: ski
+        name: "Ski & Montagne"
+        description: "Séjours au ski tout compris"
+        icon: "⛷️"
+        base_price: 40000
+        attractivity: 30
+        margin_growth_factor: 1.09
+        unlock_cost: 100000
+
+    # ==========================================================================
+    # PREMIUM - Low attractivity, high price (niche, high margins)
+    # ==========================================================================
+    -   id: plongee
+        name: "Plongée"
+        description: "Séjours plongée Maldives, Mer Rouge..."
+        icon: "🤿"
+        base_price: 80000
+        attractivity: 15
+        margin_growth_factor: 1.10
+        unlock_cost: 200000
+
+    -   id: safari
+        name: "Safari"
+        description: "Safari photo en Afrique"
+        icon: "🦁"
+        base_price: 250000
+        attractivity: 5
+        margin_growth_factor: 1.12
+        unlock_cost: 500000
+
+    -   id: croisiere_luxe
+        name: "Croisière Luxe"
+        description: "Croisières premium et expeditions"
+        icon: "🚢"
+        base_price: 500000
+        attractivity: 3
+        margin_growth_factor: 1.15
+        unlock_cost: 1000000
+
+    # ==========================================================================
+    # ULTRA PREMIUM - Very rare but extremely profitable
+    # ==========================================================================
+    -   id: tour_monde
+        name: "Tour du Monde"
+        description: "Voyage autour du monde sur mesure"
+        icon: "🌍"
+        base_price: 1500000
+        attractivity: 1
+        margin_growth_factor: 1.20
+        unlock_cost: 5000000
